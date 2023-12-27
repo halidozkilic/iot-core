@@ -6,16 +6,16 @@ import { User } from './user.entity';
 
 @Injectable()
 export class UsersService {
-    constructor(
-        @InjectRepository(User)
-        private readonly userRepository: Repository<User>,
-    ) {}
+  constructor(
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>
+  ) {}
 
-    async findOne(username: string): Promise<User | undefined> {
-        return this.userRepository.findOneBy({ username });
-    }
+  async findOne(username: string): Promise<User | undefined> {
+    return this.userRepository.findOneBy({ username });
+  }
 
-    async create(user: Partial<User>): Promise<User> {
-        return this.userRepository.create(user);
-    }
+  async create(user: Partial<User>): Promise<User> {
+    return this.userRepository.save(user);
+  }
 }

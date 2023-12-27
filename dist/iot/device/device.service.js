@@ -54,6 +54,10 @@ let DevicesService = class DevicesService {
         command.device = device;
         command.type = createCommandDto.type;
         command.payload = createCommandDto.payload;
+<<<<<<< HEAD
+=======
+        this.communicationAdapter.sendDataToDevice(device, command.payload);
+>>>>>>> a6a6a4e2 (latest)
         return this.commandRepository.save(command);
     }
     async updateCommand(deviceId, commandId, updateCommandDto) {
@@ -61,7 +65,14 @@ let DevicesService = class DevicesService {
         if (!device) {
             throw new common_1.NotFoundException('Device not found');
         }
+<<<<<<< HEAD
         const command = await this.commandRepository.findOneBy({ id: commandId, device });
+=======
+        const command = await this.commandRepository.findOneBy({
+            id: commandId,
+            device,
+        });
+>>>>>>> a6a6a4e2 (latest)
         if (!command) {
             throw new common_1.NotFoundException('Command not found');
         }
