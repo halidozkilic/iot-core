@@ -74,10 +74,7 @@ export class DevicesService implements Observer {
       device.status = updateDeviceDto.status;
     }
 
-    // Add more properties as needed
-
     return this.deviceRepository.save(device);
-
   }
 
   async createCommand(
@@ -95,7 +92,7 @@ export class DevicesService implements Observer {
     command.type = createCommandDto.type;
     command.payload = createCommandDto.payload;
 
-    this.communicationAdapter.sendDataToDevice(device, command.payload);
+    await this.communicationAdapter.sendDataToDevice(device, command.payload);
 
     return this.commandRepository.save(command);
   }
@@ -131,6 +128,7 @@ export class DevicesService implements Observer {
     for (const device of allDevices) {
       device.status = 'close';
       await this.deviceRepository.save(device);
+      await this.communicationAdapter.sendDataToDevice(device,{status: "close"})
       console.log('device:',device)
     }
   }

@@ -51,7 +51,7 @@ let DevicesService = class DevicesService {
             throw new common_1.NotFoundException('Device not found');
         }
         if (updateDeviceDto.data) {
-            device.type = updateDeviceDto.data;
+            device.data = updateDeviceDto.data;
         }
         if (updateDeviceDto.status) {
             device.status = updateDeviceDto.status;
@@ -67,7 +67,7 @@ let DevicesService = class DevicesService {
         command.device = device;
         command.type = createCommandDto.type;
         command.payload = createCommandDto.payload;
-        this.communicationAdapter.sendDataToDevice(device, command.payload);
+        await this.communicationAdapter.sendDataToDevice(device, command.payload);
         return this.commandRepository.save(command);
     }
     async updateCommand(deviceId, commandId, updateCommandDto) {
@@ -90,6 +90,7 @@ let DevicesService = class DevicesService {
         for (const device of allDevices) {
             device.status = 'close';
             await this.deviceRepository.save(device);
+            await this.communicationAdapter.sendDataToDevice(device, { status: "close" });
             console.log('device:', device);
         }
     }
