@@ -17,9 +17,13 @@ const common_1 = require("@nestjs/common");
 const device_service_1 = require("./device.service");
 const device_entity_1 = require("./device.entity");
 const command_dto_1 = require("../command/command.dto");
+const close_all_command_imp_1 = require("../command/close-all-command.imp");
+const command_invoker_1 = require("../command/command-invoker");
+const update_device_dto_1 = require("./update-device.dto");
 let DeviceController = class DeviceController {
     constructor(devicesService) {
         this.devicesService = devicesService;
+        this.commandInvoker = new command_invoker_1.CommandInvoker();
     }
     getAllDevices() {
         return this.devicesService.getAllDevices();
@@ -30,11 +34,19 @@ let DeviceController = class DeviceController {
     async registerDevice(device) {
         return this.devicesService.registerDevice(device.type, device.status, device.data);
     }
+    async updateDeviceById(deviceId, updateDeviceDto) {
+        return this.devicesService.updateDevice(deviceId, updateDeviceDto);
+    }
     createCommand(id, createCommandDto) {
         return this.devicesService.createCommand(id, createCommandDto);
     }
     updateCommand(id, commandId, updateCommandDto) {
         return this.devicesService.updateCommand(id, commandId, updateCommandDto);
+    }
+    closeAllDevices() {
+        const closeAllCommand = new close_all_command_imp_1.CloseAllCommand(this.devicesService);
+        this.commandInvoker.setCommand(closeAllCommand);
+        this.commandInvoker.executeCommand();
     }
 };
 exports.DeviceController = DeviceController;
@@ -59,6 +71,14 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], DeviceController.prototype, "registerDevice", null);
 __decorate([
+    (0, common_1.Post)(':id/update-device'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, update_device_dto_1.UpdateDeviceDto]),
+    __metadata("design:returntype", Promise)
+], DeviceController.prototype, "updateDeviceById", null);
+__decorate([
     (0, common_1.Post)(':id/commands'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
@@ -75,6 +95,12 @@ __decorate([
     __metadata("design:paramtypes", [String, String, command_dto_1.CreateCommandDto]),
     __metadata("design:returntype", Promise)
 ], DeviceController.prototype, "updateCommand", null);
+__decorate([
+    (0, common_1.Post)('close-all'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], DeviceController.prototype, "closeAllDevices", null);
 exports.DeviceController = DeviceController = __decorate([
     (0, common_1.Controller)('iot'),
     __metadata("design:paramtypes", [device_service_1.DevicesService])

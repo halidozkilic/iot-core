@@ -34,22 +34,13 @@ exports.AppModule = AppModule = __decorate([
                 type: 'postgres',
                 host: 'localhost',
                 port: 5432,
-<<<<<<< HEAD
-                username: 'halid',
-                password: '12345',
-=======
                 username: 'root',
                 password: 'root',
->>>>>>> a6a6a4e2 (latest)
                 database: 'iot-core',
                 entities: [user_entity_1.User, device_entity_1.Device, command_entity_1.Command],
                 synchronize: true,
                 autoLoadEntities: true,
-<<<<<<< HEAD
-                migrationsRun: true
-=======
                 migrationsRun: true,
->>>>>>> a6a6a4e2 (latest)
             }),
             typeorm_1.TypeOrmModule.forFeature([user_entity_1.User, device_entity_1.Device, command_entity_1.Command]),
             jwt_1.JwtModule.registerAsync({

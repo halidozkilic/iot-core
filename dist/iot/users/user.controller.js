@@ -25,6 +25,9 @@ let UserController = class UserController {
         this.authService = authService;
     }
     async register(createUserDto) {
+        const user = this.usersService.findOne(createUserDto.username);
+        if (user)
+            throw new common_1.BadRequestException('User already exist');
         const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
         return this.usersService.create(Object.assign(Object.assign({}, createUserDto), { password: hashedPassword }));
     }
@@ -33,7 +36,9 @@ let UserController = class UserController {
         if (!user) {
             throw new common_1.BadRequestException('Invalid credentials');
         }
-        return this.authService.login(user);
+        const token = await this.authService.login(user);
+        user.token = token;
+        return this.usersService.create(user);
     }
     getProfile(req) {
         return req.user;

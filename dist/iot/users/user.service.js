@@ -25,11 +25,10 @@ let UsersService = class UsersService {
         return this.userRepository.findOneBy({ username });
     }
     async create(user) {
-<<<<<<< HEAD
-        return this.userRepository.create(user);
-=======
         return this.userRepository.save(user);
->>>>>>> a6a6a4e2 (latest)
+    }
+    async update(user) {
+        return await this.userRepository.save(user);
     }
 };
 exports.UsersService = UsersService;

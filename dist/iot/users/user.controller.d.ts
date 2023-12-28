@@ -7,8 +7,6 @@ export declare class UserController {
     private readonly authService;
     constructor(usersService: UsersService, authService: AuthService);
     register(createUserDto: CreateUserDto): Promise<User>;
-    login(loginUserDto: CreateUserDto): Promise<{
-        access_token: string;
-    }>;
+    login(loginUserDto: CreateUserDto): Promise<User>;
     getProfile(req: any): any;
 }

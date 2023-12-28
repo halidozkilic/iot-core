@@ -45,6 +45,19 @@ let DevicesService = class DevicesService {
     update(device) {
         console.log(`Device updated: ${device.type} - ${device.status}`);
     }
+    async updateDevice(deviceId, updateDeviceDto) {
+        const device = await this.getDeviceById(deviceId);
+        if (!device) {
+            throw new common_1.NotFoundException('Device not found');
+        }
+        if (updateDeviceDto.data) {
+            device.type = updateDeviceDto.data;
+        }
+        if (updateDeviceDto.status) {
+            device.status = updateDeviceDto.status;
+        }
+        return this.deviceRepository.save(device);
+    }
     async createCommand(deviceId, createCommandDto) {
         const device = await this.getDeviceById(deviceId);
         if (!device) {
@@ -54,10 +67,7 @@ let DevicesService = class DevicesService {
         command.device = device;
         command.type = createCommandDto.type;
         command.payload = createCommandDto.payload;
-<<<<<<< HEAD
-=======
         this.communicationAdapter.sendDataToDevice(device, command.payload);
->>>>>>> a6a6a4e2 (latest)
         return this.commandRepository.save(command);
     }
     async updateCommand(deviceId, commandId, updateCommandDto) {
@@ -65,19 +75,23 @@ let DevicesService = class DevicesService {
         if (!device) {
             throw new common_1.NotFoundException('Device not found');
         }
-<<<<<<< HEAD
-        const command = await this.commandRepository.findOneBy({ id: commandId, device });
-=======
         const command = await this.commandRepository.findOneBy({
             id: commandId,
             device,
         });
->>>>>>> a6a6a4e2 (latest)
         if (!command) {
             throw new common_1.NotFoundException('Command not found');
         }
         Object.assign(command, updateCommandDto);
         return this.commandRepository.save(command);
+    }
+    async closeAllDevices() {
+        const allDevices = await this.deviceRepository.find();
+        for (const device of allDevices) {
+            device.status = 'close';
+            await this.deviceRepository.save(device);
+            console.log('device:', device);
+        }
     }
 };
 exports.DevicesService = DevicesService;

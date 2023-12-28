@@ -9,6 +9,8 @@ import { Observer } from './observer.interface';
 import { DatabaseAdapter } from '../adapter/db-adapter.interface'; // Import DatabaseAdapter
 import { CreateCommandDto } from '../command/command.dto';
 import { MockCommunicationAdapter } from '../adapter/mock-communication.adapter';
+import {CloseAllCommand} from "../command/close-all-command.imp";
+import {UpdateDeviceDto} from "./update-device.dto";
 
 @Injectable()
 export class DevicesService implements Observer {
@@ -56,6 +58,28 @@ export class DevicesService implements Observer {
     console.log(`Device updated: ${device.type} - ${device.status}`);
   }
 
+  async updateDevice(deviceId: string, updateDeviceDto: UpdateDeviceDto): Promise<Device> {
+    const device = await this.getDeviceById(deviceId);
+
+    if (!device) {
+      throw new NotFoundException('Device not found');
+    }
+
+    // Update device properties based on the DTO
+    if (updateDeviceDto.data) {
+      device.data = updateDeviceDto.data;
+    }
+
+    if (updateDeviceDto.status) {
+      device.status = updateDeviceDto.status;
+    }
+
+    // Add more properties as needed
+
+    return this.deviceRepository.save(device);
+
+  }
+
   async createCommand(
     deviceId: string,
     createCommandDto: CreateCommandDto
@@ -99,5 +123,15 @@ export class DevicesService implements Observer {
     Object.assign(command, updateCommandDto);
 
     return this.commandRepository.save(command);
+  }
+
+  async closeAllDevices(): Promise<void> {
+    const allDevices = await this.deviceRepository.find();
+
+    for (const device of allDevices) {
+      device.status = 'close';
+      await this.deviceRepository.save(device);
+      console.log('device:',device)
+    }
   }
 }

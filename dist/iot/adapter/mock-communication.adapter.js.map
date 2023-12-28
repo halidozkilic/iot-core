@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-{"version":3,"file":"mock-communication.adapter.js","sourceRoot":"","sources":["../../../src/iot/adapter/mock-communication.adapter.ts"],"names":[],"mappings":";;;;;;;;;AAAA,2CAA4C;AAKrC,IAAM,wBAAwB,GAA9B,MAAM,wBAAwB;IACjC,KAAK,CAAC,gBAAgB,CAAC,MAAc,EAAE,IAAS;QAC5C,OAAO,CAAC,GAAG,CAAC,4BAA4B,MAAM,CAAC,EAAE,GAAG,EAAE,IAAI,CAAC,CAAC;IAChE,CAAC;CACJ,CAAA;AAJY,4DAAwB;mCAAxB,wBAAwB;IADpC,IAAA,mBAAU,GAAE;GACA,wBAAwB,CAIpC"}
-=======
 {"version":3,"file":"mock-communication.adapter.js","sourceRoot":"","sources":["../../../src/iot/adapter/mock-communication.adapter.ts"],"names":[],"mappings":";;;;;;;;;;AAAA,2CAAoD;AAK7C,IAAM,wBAAwB,gCAA9B,MAAM,wBAAwB;IAA9B;QACY,WAAM,GAAG,IAAI,eAAM,CAAC,0BAAwB,CAAC,IAAI,CAAC,CAAC;IAItE,CAAC;IAHC,KAAK,CAAC,gBAAgB,CAAC,MAAc,EAAE,IAAS;QAC9C,IAAI,CAAC,MAAM,CAAC,GAAG,CAAC,4BAA4B,MAAM,CAAC,EAAE,GAAG,EAAE,IAAI,CAAC,CAAC;IAClE,CAAC;CACF,CAAA;AALY,4DAAwB;mCAAxB,wBAAwB;IADpC,IAAA,mBAAU,GAAE;GACA,wBAAwB,CAKpC"}
->>>>>>> a6a6a4e2 (latest)

@@ -5,4 +5,5 @@ export declare class UsersService {
     constructor(userRepository: Repository<User>);
     findOne(username: string): Promise<User | undefined>;
     create(user: Partial<User>): Promise<User>;
+    update(user: Partial<User>): Promise<User>;
 }
